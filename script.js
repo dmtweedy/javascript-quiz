@@ -1,4 +1,4 @@
-// Quiz Questions
+// questions
 var questions = [
   {
     question: "What is the correct syntax to link a JavaScript file to an HTML file?",
@@ -27,13 +27,13 @@ var questions = [
   }
 ];
 
-// Quiz Variables
+// variables
 var currentQuestionIndex = 0;
 var score = 0;
 var timeRemaining = 60;
 var timerInterval;
 
-// DOM Elements
+// DOM elements
 var startButton = document.getElementById("start-button");
 var quizContainer = document.getElementById("quiz-container");
 var questionElement = document.getElementById("question");
@@ -45,14 +45,13 @@ var saveButton = document.getElementById("save-button");
 var highscoreButton = document.getElementById("highscore-button");
 var scoreContainer = document.getElementById("score-container");
 
-// Function to start the quiz
+// start quiz
 function startQuiz() {
   startButton.style.display = "none";
   highscoreButton.style.display = "block";
   timerEl.style.display = "block";
   scoreContainer.style.display = "block";
   quizContainer.style.display = "block";
-
   timerInterval = setInterval(function() {
     timeRemaining--;
     timerEl.textContent = "Time: " + timeRemaining;
@@ -60,11 +59,10 @@ function startQuiz() {
       endQuiz();
     }
   }, 1000);
-
   showQuestion();
 }
 
-// Function to display a question
+// display questions
 function showQuestion() {
   var question = questions[currentQuestionIndex];
   questionElement.textContent = question.question;
@@ -79,11 +77,11 @@ function showQuestion() {
   });
 }
 
-// Function to check the answer
+// check answers
 function checkAnswer(choiceIndex) {
   var question = questions[currentQuestionIndex];
   if (choiceIndex === question.correctAnswer) {
-    score += 10; // Increase the score by 10 for every correct answer
+    score += 10;
     resultEl.textContent = "Correct!";
   } else {
     timeRemaining -= 10;
@@ -95,25 +93,20 @@ function checkAnswer(choiceIndex) {
     resultEl.style.display = "none";
     showQuestion();
   }, 1000);
-
-  // Update the score display
   scoreContainer.textContent = "Score: " + score;
 }
 
 function endQuiz() {
   clearInterval(timerInterval);
   quizContainer.style.display = "none";
-  var finalScore = score + timeRemaining; // Add the score to the time remaining
+  var finalScore = score + timeRemaining;
   document.getElementById("final-score").textContent = "Your Score: " + finalScore;
   document.getElementById("game-over").style.display = "block";
   scoreContainer.textContent = "Score: " + finalScore;
   scoreContainer.style.display = "block";
   highscoreButton.style.display = "block";
-
-  // Check if "Take the quiz again?" button already exists
   var restartButton = document.getElementById("restart-button");
   if (!restartButton) {
-    // Create "Take the quiz again?" button
     restartButton = document.createElement("button");
     restartButton.id = "restart-button";
     restartButton.textContent = "Take the quiz again?";
@@ -124,7 +117,7 @@ function endQuiz() {
   }
 }
 
-// Function to save the score
+// save score
 function saveScore() {
   var initials = initialsInput.value.trim();
   if (initials !== "") {
@@ -142,19 +135,18 @@ function saveScore() {
   }
 }
 
-// Function to display the saved score and "Play Again" button
+// saved score and play again
 function displaySavedScore(score) {
   var savedScoreContainer = document.getElementById("saved-score-container");
   savedScoreContainer.innerHTML = "Saved Score: " + score.score;
   savedScoreContainer.style.display = "block";
-
   var playAgainButton = document.createElement("button");
   playAgainButton.textContent = "Take the quiz again?";
   playAgainButton.addEventListener("click", restartQuiz);
   savedScoreContainer.appendChild(playAgainButton);
 }
 
-// Function to restart the quiz
+// restart quiz
 function restartQuiz() {
   currentQuestionIndex = 0;
   score = 0;
@@ -166,7 +158,7 @@ function restartQuiz() {
   startQuiz();
 }
 
-// Function to show high scores
+// high scores
 function showHighScores() {
   var highScores = JSON.parse(localStorage.getItem("highScores")) || [];
   highScores.sort(function (a, b) {
@@ -183,7 +175,7 @@ function showHighScores() {
   document.getElementById("highscore-container").style.display = "block";
 }
 
-// Event Listeners
+// event Listeners
 startButton.addEventListener("click", startQuiz);
 saveButton.addEventListener("click", saveScore);
 highscoreButton.addEventListener("click", showHighScores);
